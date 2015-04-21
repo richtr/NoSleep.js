@@ -26,6 +26,6 @@
     "wakelock",
     "screen",
     "display",
-    "sleep",
+    "sleep"
   ]
 }

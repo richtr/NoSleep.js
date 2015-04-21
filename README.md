@@ -28,6 +28,8 @@ noSleep.enable();
 noSleep.disable();
 ```
 
+NOTE FOR ANDROID BROWSERS: The user must interact with your page, by e.g. touching the screen, *at least once* for the wake lock to take effect!
+
 ## License
 
 MIT. Copyright (c) Rich Tibbett

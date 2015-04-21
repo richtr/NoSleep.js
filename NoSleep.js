@@ -64,7 +64,7 @@
       this.noSleepTimer = window.setInterval(function() {
         window.location = window.location;
         window.setTimeout(window.stop, 0);
-      }, duration || 90000); // minimum iOS display sleep is 2 minutes
+      }, duration || 15000);
     } else if (ua.Android) {
       this.noSleepVideo.play();
     }

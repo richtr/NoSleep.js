@@ -1,3 +1,8 @@
+/**
+ * NoSleep.js v0.2.0 - git.io/vfn01
+ * Rich Tibbett
+ * MIT license
+ **/
 (function(root) {
   // UA matching
   var ua = {

@@ -10,10 +10,10 @@
     iOS: /AppleWebKit/.test(navigator.userAgent) && /Mobile\/\w+/.test(navigator.userAgent)
   };
 
-  function addSourceToVideo(element, src, type) {
+  function addSourceToVideo(element, suffix, type) {
     var source = document.createElement('source');
-    source.src = src;
-    source.type = type;
+    source.src = "./resources/blank." + suffix;
+    source.type = "video/" + type;
     element.appendChild(source);
   }
 
@@ -31,24 +31,9 @@
       });
 
       // Append blank video sources
-      for (var i = 0; i < 3; i++) {
-        var prefix, type;
-        switch (i) {
-          case 0:
-            prefix = "m4v";
-            type = "mp4";
-            break;
-          case 1:
-            prefix = type = "webm";
-            break;
-          case 2:
-            prefix = "ogv";
-            type = "ogg";
-            break;
-        }
-
-        addSourceToVideo(this.noSleepVideo, "./resources/blank." + prefix, "video/" + type);
-      }
+      addSourceToVideo(this.noSleepVideo, "m4v", "mp4");
+      addSourceToVideo(this.noSleepVideo, "webm", "webm");
+      addSourceToVideo(this.noSleepVideo, "ogv", "ogg");
     }
 
     return this;

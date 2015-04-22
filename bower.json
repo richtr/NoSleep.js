@@ -1,7 +1,7 @@
 {
   "name": "nosleep",
   "title": "NoSleep.js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Prevent display sleep on all Android and iOS browsers",
   "homepage": "https://github.com/richtr/NoSleep.js",
   "authors": [

@@ -2,15 +2,15 @@
 
 Prevent display sleep and enable wake lock in all Android and iOS web browsers.
 
+Check out the [live demo](https://richtr.github.io/NoSleep.js/example.html) in any Android or iOS web browser.
+
 ## Installation
 
 This library is available on [Bower](http://bower.io/) as **nosleep**.
 
     $> bower install nosleep
 
-Alternatively, you can manually add [NoSleep.js](https://github.com/richtr/NoSleep.js/blob/master/NoSleep.js) to your project and then also copy the [video files](https://github.com/richtr/NoSleep.js/blob/master/resources/) provided to a `./resources` sub-directory.
-
-Also check out the [live demo of NoSleep.js](https://richtr.github.io/NoSleep.js/example.html).
+Alternatively, you can manually add [NoSleep.js](https://github.com/richtr/NoSleep.js/blob/master/NoSleep.js) to your project (or the [minified version](https://github.com/richtr/NoSleep.js/blob/master/NoSleep.min.js)).
 
 ## Usage
 

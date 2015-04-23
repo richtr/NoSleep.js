@@ -1,5 +1,5 @@
 /**
- * NoSleep.js v0.4.0 - git.io/vfn01
+ * NoSleep.js v0.5.0 - git.io/vfn01
  * Rich Tibbett
  * MIT license
  **/
@@ -10,9 +10,14 @@
     iOS: /AppleWebKit/.test(navigator.userAgent) && /Mobile\/\w+/.test(navigator.userAgent)
   };
 
-  function addSourceToVideo(element, suffix, type) {
+  var media = {
+    WebM: "data:video/webm;base64,GkXfo0AgQoaBAUL3gQFC8oEEQvOBCEKCQAR3ZWJtQoeBAkKFgQIYU4BnQI0VSalmQCgq17FAAw9CQE2AQAZ3aGFtbXlXQUAGd2hhbW15RIlACECPQAAAAAAAFlSua0AxrkAu14EBY8WBAZyBACK1nEADdW5khkAFVl9WUDglhohAA1ZQOIOBAeBABrCBCLqBCB9DtnVAIueBAKNAHIEAAIAwAQCdASoIAAgAAUAmJaQAA3AA/vz0AAA=",
+    MP4: "data:video/mp4;base64,AAAAHGZ0eXBpc29tAAACAGlzb21pc28ybXA0MQAAAAhmcmVlAAAAG21kYXQAAAGzABAHAAABthADAowdbb9/AAAC6W1vb3YAAABsbXZoZAAAAAB8JbCAfCWwgAAAA+gAAAAAAAEAAAEAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAIVdHJhawAAAFx0a2hkAAAAD3wlsIB8JbCAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAQAAAAAAIAAAACAAAAAABsW1kaWEAAAAgbWRoZAAAAAB8JbCAfCWwgAAAA+gAAAAAVcQAAAAAAC1oZGxyAAAAAAAAAAB2aWRlAAAAAAAAAAAAAAAAVmlkZW9IYW5kbGVyAAAAAVxtaW5mAAAAFHZtaGQAAAABAAAAAAAAAAAAAAAkZGluZgAAABxkcmVmAAAAAAAAAAEAAAAMdXJsIAAAAAEAAAEcc3RibAAAALhzdHNkAAAAAAAAAAEAAACobXA0dgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAIAAgASAAAAEgAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABj//wAAAFJlc2RzAAAAAANEAAEABDwgEQAAAAADDUAAAAAABS0AAAGwAQAAAbWJEwAAAQAAAAEgAMSNiB9FAEQBFGMAAAGyTGF2YzUyLjg3LjQGAQIAAAAYc3R0cwAAAAAAAAABAAAAAQAAAAAAAAAcc3RzYwAAAAAAAAABAAAAAQAAAAEAAAABAAAAFHN0c3oAAAAAAAAAEwAAAAEAAAAUc3RjbwAAAAAAAAABAAAALAAAAGB1ZHRhAAAAWG1ldGEAAAAAAAAAIWhkbHIAAAAAAAAAAG1kaXJhcHBsAAAAAAAAAAAAAAAAK2lsc3QAAAAjqXRvbwAAABtkYXRhAAAAAQAAAABMYXZmNTIuNzguMw=="
+  };
+
+  function addSourceToVideo(element, type, dataURI) {
     var source = document.createElement('source');
-    source.src = "./resources/blank." + suffix;
+    source.src = dataURI;
     source.type = "video/" + type;
     element.appendChild(source);
   }
@@ -25,6 +30,10 @@
       // Set up no sleep video element
       this.noSleepVideo = document.createElement('video');
       this.noSleepVideo.setAttribute("loop", "");
+
+      // Append nosleep video sources
+      addSourceToVideo(this.noSleepVideo, "webm", media.WebM);
+      addSourceToVideo(this.noSleepVideo, "mp4", media.MP4);
     }
 
     return this;
@@ -39,15 +48,6 @@
         window.setTimeout(window.stop, 0);
       }, duration || 15000);
     } else if (ua.Android) {
-      // Append blank video sources on first method invocation
-      if (!this.videoSourcesLoaded) {
-        addSourceToVideo(this.noSleepVideo, "webm", "webm");
-        addSourceToVideo(this.noSleepVideo, "mp4", "mp4");
-        addSourceToVideo(this.noSleepVideo, "ogv", "ogg");
-
-        this.videoSourcesLoaded = true;
-      }
-
       this.noSleepVideo.play();
     }
   };

@@ -1,5 +1,5 @@
 /**
- * NoSleep.js v0.3.0 - git.io/vfn01
+ * NoSleep.js v0.4.0 - git.io/vfn01
  * Rich Tibbett
  * MIT license
  **/
@@ -19,21 +19,12 @@
 
   // NoSleep instance constructor
   var NoSleep = function() {
-    this.noSleepTimer = null;
-
-    // Set up no sleep video element
-    if (ua.Android) {
+    if (ua.iOS) {
+      this.noSleepTimer = null;
+    } else if (ua.Android) {
+      // Set up no sleep video element
       this.noSleepVideo = document.createElement('video');
-
-      // loop the video
-      this.noSleepVideo.addEventListener('ended', function(ev) {
-        this.play();
-      });
-
-      // Append blank video sources
-      addSourceToVideo(this.noSleepVideo, "m4v", "mp4");
-      addSourceToVideo(this.noSleepVideo, "webm", "webm");
-      addSourceToVideo(this.noSleepVideo, "ogv", "ogg");
+      this.noSleepVideo.setAttribute("loop", "");
     }
 
     return this;
@@ -48,6 +39,15 @@
         window.setTimeout(window.stop, 0);
       }, duration || 15000);
     } else if (ua.Android) {
+      // Append blank video sources on first method invocation
+      if (!this.videoSourcesLoaded) {
+        addSourceToVideo(this.noSleepVideo, "webm", "webm");
+        addSourceToVideo(this.noSleepVideo, "mp4", "mp4");
+        addSourceToVideo(this.noSleepVideo, "ogv", "ogg");
+
+        this.videoSourcesLoaded = true;
+      }
+
       this.noSleepVideo.play();
     }
   };

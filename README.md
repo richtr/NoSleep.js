@@ -19,16 +19,18 @@ Create a new NoSleep object and then enable or disable it when needed as follows
 ``` javascript
 var noSleep = new NoSleep();
 
-// Enable wake lock
-noSleep.enable();
+// Enable wake lock.
+// (must be wrapped in a user input event handler e.g. a mouse or touch handler)
+document.addEventListener('touchstart', function() {
+  noSleep.enable();
+}, false);
 
 // ...
 
-// Disable wake lock
+// Disable wake lock at some point in the future.
+// (does not need to be wrapped in any user input event handler)
 noSleep.disable();
 ```
-
-NOTE FOR ANDROID BROWSERS: The user must interact with your page, by e.g. touching the screen, *at least once* for the wake lock to take effect!
 
 ## License
 

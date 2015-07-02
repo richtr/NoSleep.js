@@ -44,7 +44,7 @@
     if (ua.iOS) {
       this.disable();
       this.noSleepTimer = window.setInterval(function() {
-        window.location = window.location;
+        window.location.href = '/';
         window.setTimeout(window.stop, 0);
       }, duration || 15000);
     } else if (ua.Android) {

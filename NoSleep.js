@@ -7,7 +7,7 @@
   // UA matching
   var ua = {
     Android: /Android/ig.test(navigator.userAgent),
-    iOS: /AppleWebKit/.test(navigator.userAgent) && /Mobile\/\w+/.test(navigator.userAgent)
+    iOS: /AppleWebKit/.test(navigator.userAgent) && /Mobile\/\w+/.test(navigator.userAgent) && !/CriOS/.test(navigator.userAgent)
   };
 
   var media = {

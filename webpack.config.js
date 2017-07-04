@@ -1,0 +1,37 @@
+var webpack = require('webpack');
+
+module.exports = {
+  entry: {
+    "NoSleep": `${__dirname}/src/index.js`,
+    "NoSleep.min": `${__dirname}/src/index.js`,
+  },
+  output: {
+    path: `${__dirname}/dist`,
+    filename: "[name].js",
+    library: "NoSleep",
+    libraryTarget: "umd"
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['es2015']
+          }
+        }
+      }
+    ]
+  },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      include: /\.min\.js$/,
+      minimize: true
+    }),
+    new webpack.BannerPlugin({
+      banner: `[name].js v0.7.0 - git.io/vfn01 - Rich Tibbett - MIT license`
+    })
+  ]
+};

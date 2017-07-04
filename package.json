@@ -1,0 +1,24 @@
+{
+  "name": "nosleep.js",
+  "version": "0.6.0",
+  "description": "Prevent display sleep and enable wake lock in any Android or iOS web browser",
+  "main": "NoSleep.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richtr/NoSleep.js.git"
+  },
+  "keywords": [
+    "sleep",
+    "android",
+    "ios"
+  ],
+  "author": "Rich Tibbett",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/richtr/NoSleep.js/issues"
+  },
+  "homepage": "https://github.com/richtr/NoSleep.js#readme"
+}

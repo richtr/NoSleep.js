@@ -11,14 +11,12 @@
   "license": "MIT",
   "ignore": [
     "**/.*",
-    "example.html",
-    "test",
-    "*.md",
-    "Gruntfile.js",
+    "**/*.md",
+    "**/*.html",
+    "/*.js",
     "package.json",
     "node_modules",
     "bower_components",
-    "tests"
   ],
   "keywords": [
     "nosleep",

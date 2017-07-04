@@ -10,7 +10,7 @@
   <h1>NoSleep Test Page</h1>
   <script src="NoSleep.js"></script>
 
-  <input type="button" id="toggle" value="Wake Lock Disabled" />
+  <input type="button" id="toggle" value="Wake Lock is disabled" />
 
   <script>
     var noSleep = new NoSleep();
@@ -21,11 +21,13 @@
       if (!wakeLockEnabled) {
         noSleep.enable(); // keep the screen on!
         wakeLockEnabled = true;
-        toggleEl.value = "Wake Lock Enabled";
+        toggleEl.value = "Wake Lock is enabled";
+        document.body.style.backgroundColor = "green";
       } else {
         noSleep.disable(); // let the screen turn off.
         wakeLockEnabled = false;
-        toggleEl.value = "Wake Lock Disabled";
+        toggleEl.value = "Wake Lock is disabled";
+        document.body.style.backgroundColor = "";
       }
     }, false);
   </script>

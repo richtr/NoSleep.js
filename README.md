@@ -10,6 +10,10 @@ This library is available on [Bower](http://bower.io/) as **nosleep**.
 
     $> bower install nosleep
 
+This package is published to npm as **nosleep.js** and can installed with:
+
+    $> npm install nosleep.js
+
 Alternatively, you can manually add [NoSleep.js](https://github.com/richtr/NoSleep.js/blob/master/dist/NoSleep.js) to your project (or the [minified version](https://github.com/richtr/NoSleep.js/blob/master/dist/NoSleep.min.js)).
 
 ## Build from source

@@ -16,12 +16,6 @@ class NoSleep {
 
       this.noSleepVideo.setAttribute('playsinline', '')
       this.noSleepVideo.setAttribute('src', mediaFile)
-
-      this.noSleepVideo.addEventListener('timeupdate', function (e) {
-        if (this.noSleepVideo.currentTime > 0.5) {
-          this.noSleepVideo.currentTime = Math.random()
-        }
-      }.bind(this))
     }
   }
 
@@ -33,7 +27,9 @@ class NoSleep {
         window.setTimeout(window.stop, 0)
       }, 15000)
     } else {
-      this.noSleepVideo.play()
+      this.noSleepVideo.setAttribute('muted', '')
+      this.noSleepVideo.setAttribute('autoplay', '')
+      this.noSleepVideo.setAttribute('loop', '')
     }
   }
 
@@ -44,7 +40,7 @@ class NoSleep {
         this.noSleepTimer = null
       }
     } else {
-      this.noSleepVideo.pause()
+      this.noSleepVideo.removeAttribute('loop')
     }
   }
 };

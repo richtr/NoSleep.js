@@ -10,7 +10,7 @@ This library is available on [Bower](http://bower.io/) as **nosleep**.
 
     $> bower install nosleep
 
-This package is published to npm as **nosleep.js** and can installed with:
+This package is published to npm as **nosleep.js** and can be installed with:
 
     $> npm install nosleep.js
 

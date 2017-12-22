@@ -1,7 +1,7 @@
-const mediaFile = require('./media.js')
+var mediaFile = require('./media.js')
 
 // Detect iOS browsers < version 10
-const oldIOS = typeof navigator !== 'undefined' && parseFloat(
+var oldIOS = typeof navigator !== 'undefined' && parseFloat(
   ('' + (/CPU.*OS ([0-9_]{3,4})[0-9_]{0,1}|(CPU like).*AppleWebKit.*Mobile/i.exec(navigator.userAgent) || [0, ''])[1])
     .replace('undefined', '3_2').replace('_', '.').replace('_', '')
 ) < 10 && !window.MSStream

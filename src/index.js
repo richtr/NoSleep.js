@@ -30,7 +30,7 @@ class NoSleep {
     if (oldIOS) {
       this.disable()
       this.noSleepTimer = window.setInterval(function () {
-        window.location.href = window.location.href
+        window.location.href = window.location.href.split('#')[0]
         window.setTimeout(window.stop, 0)
       }, 15000)
     } else {

@@ -1,4 +1,4 @@
-/*! NoSleep.js v0.7.0 - git.io/vfn01 - Rich Tibbett - MIT license */
+/*! NoSleep.js v0.8.0 - git.io/vfn01 - Rich Tibbett - MIT license */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -8,7 +8,7 @@
 		exports["NoSleep"] = factory();
 	else
 		root["NoSleep"] = factory();
-})(this, function() {
+})(typeof self !== 'undefined' ? self : this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -100,6 +100,7 @@ var NoSleep = function () {
       // Set up no sleep video element
       this.noSleepVideo = document.createElement('video');
 
+      this.noSleepVideo.setAttribute('title', 'No Sleep');
       this.noSleepVideo.setAttribute('playsinline', '');
       this.noSleepVideo.setAttribute('src', mediaFile);
 

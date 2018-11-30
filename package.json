@@ -22,6 +22,12 @@
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.1",
     "babel-preset-env": "^1.7.0",
+    "eslint": "^5.9.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
     "standard": "^10.0.2",
     "standard-loader": "^6.0.1",
     "webpack": "^3.0.0"
@@ -31,6 +37,7 @@
     "url": "https://github.com/richtr/NoSleep.js/issues"
   },
   "scripts": {
-    "build": "webpack"
+    "lint": "eslint src",
+    "build": "npm run lint && webpack"
   }
 }

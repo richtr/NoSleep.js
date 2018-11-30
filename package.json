@@ -12,7 +12,8 @@
     "display",
     "sleep"
   ],
-  "main": "src/index.js",
+  "main": "dist/NoSleep.min.js",
+  "module": "src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/richtr/NoSleep.js.git"

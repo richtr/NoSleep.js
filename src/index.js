@@ -1,4 +1,4 @@
-const mediaFile = require('./media.js')
+const { webm, mp4 } = require('./media.js')
 
 // Detect iOS browsers < version 10
 const oldIOS = typeof navigator !== 'undefined' && parseFloat(
@@ -16,20 +16,35 @@ class NoSleep {
 
       this.noSleepVideo.setAttribute('title', 'No Sleep')
       this.noSleepVideo.setAttribute('playsinline', '')
-      this.noSleepVideo.setAttribute('src', mediaFile)
 
-      this.noSleepVideo.addEventListener('timeupdate', function (e) {
-        if (this.noSleepVideo.currentTime > 0.5) {
-          this.noSleepVideo.currentTime = Math.random()
+      this._addSourceToVideo(this.noSleepVideo, 'webm', webm)
+      this._addSourceToVideo(this.noSleepVideo, 'mp4', mp4)
+
+      this.noSleepVideo.addEventListener('loadedmetadata', () => {
+        if (this.noSleepVideo.duration <= 1) { // webm source
+          this.noSleepVideo.setAttribute('loop', '')
+        } else { // mp4 source
+          this.noSleepVideo.addEventListener('timeupdate', () => {
+            if (this.noSleepVideo.currentTime > 0.5) {
+              this.noSleepVideo.currentTime = Math.random()
+            }
+          })
         }
-      }.bind(this))
+      })
     }
+  }
+
+  _addSourceToVideo (element, type, dataURI) {
+    var source = document.createElement('source')
+    source.src = dataURI
+    source.type = `video/${type}`
+    element.appendChild(source)
   }
 
   enable () {
     if (oldIOS) {
       this.disable()
-      this.noSleepTimer = window.setInterval(function () {
+      this.noSleepTimer = window.setInterval(() => {
         if (!document.hidden) {
           window.location.href = window.location.href.split('#')[0]
           window.setTimeout(window.stop, 0)

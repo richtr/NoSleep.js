@@ -40,7 +40,7 @@ module.exports = {
       minimize: true
     }),
     new webpack.BannerPlugin({
-      banner: `[name].js v0.8.0 - git.io/vfn01 - Rich Tibbett - MIT license`
+      banner: `[name].js v0.9.0 - git.io/vfn01 - Rich Tibbett - MIT license`
     })
   ]
 }

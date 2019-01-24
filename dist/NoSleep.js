@@ -96,40 +96,72 @@ var oldIOS = typeof navigator !== 'undefined' && parseFloat(('' + (/CPU.*OS ([0-
 
 var NoSleep = function () {
   function NoSleep() {
-    var _this = this;
-
     _classCallCheck(this, NoSleep);
 
-    if (oldIOS) {
-      this.noSleepTimer = null;
+    // checking if WakeLock API is available
+    if (navigator && 'getWakeLock' in navigator) {
+      this._initWakeLock();
     } else {
-      // Set up no sleep video element
-      this.noSleepVideo = document.createElement('video');
-
-      this.noSleepVideo.setAttribute('muted', '');
-      this.noSleepVideo.setAttribute('title', 'No Sleep');
-      this.noSleepVideo.setAttribute('playsinline', '');
-
-      this._addSourceToVideo(this.noSleepVideo, 'webm', webm);
-      this._addSourceToVideo(this.noSleepVideo, 'mp4', mp4);
-
-      this.noSleepVideo.addEventListener('loadedmetadata', function () {
-        if (_this.noSleepVideo.duration <= 1) {
-          // webm source
-          _this.noSleepVideo.setAttribute('loop', '');
-        } else {
-          // mp4 source
-          _this.noSleepVideo.addEventListener('timeupdate', function () {
-            if (_this.noSleepVideo.currentTime > 0.5) {
-              _this.noSleepVideo.currentTime = Math.random();
-            }
-          });
-        }
-      });
+      this._initPolyfill();
     }
   }
 
+  /**
+   * Initializes WakeLock
+   */
+
+
   _createClass(NoSleep, [{
+    key: '_initWakeLock',
+    value: function _initWakeLock() {
+      var _this = this;
+
+      navigator.getWakeLock('screen').then(function (wakeLockObj) {
+        _this.wakeLockObj = wakeLockObj;
+      }).catch(function () {
+        // in case of error use Polyfill
+        _this._initPolyfill();
+      });
+    }
+
+    /**
+     * Initializes polyfill
+     */
+
+  }, {
+    key: '_initPolyfill',
+    value: function _initPolyfill() {
+      var _this2 = this;
+
+      if (oldIOS) {
+        this.noSleepTimer = null;
+      } else {
+        // Set up no sleep video element
+        this.noSleepVideo = document.createElement('video');
+
+        this.noSleepVideo.setAttribute('muted', '');
+        this.noSleepVideo.setAttribute('title', 'No Sleep');
+        this.noSleepVideo.setAttribute('playsinline', '');
+
+        this._addSourceToVideo(this.noSleepVideo, 'webm', webm);
+        this._addSourceToVideo(this.noSleepVideo, 'mp4', mp4);
+
+        this.noSleepVideo.addEventListener('loadedmetadata', function () {
+          if (_this2.noSleepVideo.duration <= 1) {
+            // webm source
+            _this2.noSleepVideo.setAttribute('loop', '');
+          } else {
+            // mp4 source
+            _this2.noSleepVideo.addEventListener('timeupdate', function () {
+              if (_this2.noSleepVideo.currentTime > 0.5) {
+                _this2.noSleepVideo.currentTime = Math.random();
+              }
+            });
+          }
+        });
+      }
+    }
+  }, {
     key: '_addSourceToVideo',
     value: function _addSourceToVideo(element, type, dataURI) {
       var source = document.createElement('source');
@@ -140,8 +172,14 @@ var NoSleep = function () {
   }, {
     key: 'enable',
     value: function enable() {
-      if (oldIOS) {
+      if (this.wakeLockObj) {
+        // making sure that things don't brake if `disable` is called twice
+        if (!this.wakeLockRequest) {
+          this.wakeLockRequest = this.wakeLockObj.createRequest();
+        }
+      } else if (oldIOS) {
         this.disable();
+
         console.warn('\n        NoSleep enabled for older iOS devices. This can interrupt\n        active or long-running network requests from completing successfully.\n        See https://github.com/richtr/NoSleep.js/issues/15 for more details.\n      ');
         this.noSleepTimer = window.setInterval(function () {
           if (!document.hidden) {
@@ -156,7 +194,13 @@ var NoSleep = function () {
   }, {
     key: 'disable',
     value: function disable() {
-      if (oldIOS) {
+      if (this.wakeLockObj) {
+        // making sure that things don't brake if `disable` is called twice
+        if (this.wakeLockRequest) {
+          this.wakeLockRequest.cancel();
+          this.wakeLockRequest = null;
+        }
+      } else if (oldIOS) {
         if (this.noSleepTimer) {
           console.warn('\n          NoSleep now disabled for older iOS devices.\n        ');
           window.clearInterval(this.noSleepTimer);
@@ -170,8 +214,6 @@ var NoSleep = function () {
 
   return NoSleep;
 }();
-
-;
 
 module.exports = NoSleep;
 

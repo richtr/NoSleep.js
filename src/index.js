@@ -8,6 +8,30 @@ const oldIOS = typeof navigator !== 'undefined' && parseFloat(
 
 class NoSleep {
   constructor () {
+    // checking if WakeLock API is available
+    if (navigator && 'getWakeLock' in navigator) {
+      this._initWakeLock()
+    } else {
+      this._initPolyfill()
+    }
+  }
+
+  /**
+   * Initializes WakeLock
+   */
+  _initWakeLock () {
+    navigator.getWakeLock('screen').then((wakeLockObj) => {
+      this.wakeLockObj = wakeLockObj
+    }).catch(() => {
+      // in case of error use Polyfill
+      this._initPolyfill()
+    })
+  }
+
+  /**
+   * Initializes polyfill
+   */
+  _initPolyfill () {
     if (oldIOS) {
       this.noSleepTimer = null
     } else {
@@ -43,8 +67,14 @@ class NoSleep {
   }
 
   enable () {
-    if (oldIOS) {
+    if (this.wakeLockObj) {
+      // making sure that things don't brake if `disable` is called twice
+      if (!this.wakeLockRequest) {
+        this.wakeLockRequest = this.wakeLockObj.createRequest()
+      }
+    } else if (oldIOS) {
       this.disable()
+
       console.warn(`
         NoSleep enabled for older iOS devices. This can interrupt
         active or long-running network requests from completing successfully.
@@ -62,7 +92,13 @@ class NoSleep {
   }
 
   disable () {
-    if (oldIOS) {
+    if (this.wakeLockObj) {
+      // making sure that things don't brake if `disable` is called twice
+      if (this.wakeLockRequest) {
+        this.wakeLockRequest.cancel()
+        this.wakeLockRequest = null
+      }
+    } else if (oldIOS) {
       if (this.noSleepTimer) {
         console.warn(`
           NoSleep now disabled for older iOS devices.
@@ -74,6 +110,6 @@ class NoSleep {
       this.noSleepVideo.pause()
     }
   }
-};
+}
 
 module.exports = NoSleep

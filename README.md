@@ -32,7 +32,7 @@ A new build of [NoSleep.js](https://github.com/richtr/NoSleep.js/blob/master/dis
 Import ES6 module:
 
 ```javascript
-import NoSleep from 'nosleep.js'
+import NoSleep from 'nosleep.js';
 ```
 
 Create a new NoSleep object and then enable or disable it when needed.

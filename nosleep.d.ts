@@ -1,7 +1,17 @@
-export class NoSleep {
-  enable ()
-  disable ()
-  _addSourceToVideo (element: HTMLElement, type: string, dataURI: string)
+declare namespace nosleep {
+  class NoSleep {
+    constructor ()
+
+    enable (): void
+    disable (): void
+    _addSourceToVideo (element: HTMLElement, type: string, dataURI: string): void
+  }
 }
 
-declare var NoSleep: NoSleep;
+declare global {
+  interface Window {
+    NoSleep: typeof nosleep.NoSleep
+  }
+}
+
+export default nosleep.NoSleep

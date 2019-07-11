@@ -38,7 +38,7 @@
     "url": "https://github.com/HacksawStudios/NoSleep.js/issues"
   },
   "scripts": {
-    "lint": "eslint src",
-    "build": "npm run lint && webpack"
+    "lint": "npx eslint src",
+    "build": "npm run lint && npx webpack"
   }
 }

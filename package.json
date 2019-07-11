@@ -1,6 +1,6 @@
 {
-  "name": "nosleep.js",
-  "version": "0.9.0",
+  "name": "@hacksawstudios/nosleep.js",
+  "version": "0.9.1",
   "author": "Rich Tibbett",
   "license": "MIT",
   "description": "Prevent display sleep and enable wake lock in any Android or iOS web browser",
@@ -16,7 +16,7 @@
   "module": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/richtr/NoSleep.js.git"
+    "url": "https://github.com/HacksawStudios/NoSleep.js.git"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
@@ -33,9 +33,9 @@
     "standard-loader": "^6.0.1",
     "webpack": "^3.0.0"
   },
-  "homepage": "https://github.com/richtr/NoSleep.js",
+  "homepage": "https://github.com/HacksawStudios/NoSleep.js",
   "bugs": {
-    "url": "https://github.com/richtr/NoSleep.js/issues"
+    "url": "https://github.com/HacksawStudios/NoSleep.js/issues"
   },
   "scripts": {
     "lint": "eslint src",

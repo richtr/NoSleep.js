@@ -29,6 +29,11 @@ To build this library run:
 A new build of [NoSleep.js](https://github.com/richtr/NoSleep.js/blob/master/dist/NoSleep.js) and [NoSleep.min.js](https://github.com/richtr/NoSleep.js/blob/master/dist/NoSleep.min.js) will now be available in the `/dist` directory.
 
 ## Usage
+Import ES6 module:
+
+```javascript
+import NoSleep from 'nosleep.js';
+```
 
 Create a new NoSleep object and then enable or disable it when needed.
 

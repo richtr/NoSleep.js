@@ -14,6 +14,7 @@
   ],
   "main": "dist/NoSleep.min.js",
   "module": "src/index.js",
+  "types": "nosleep.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/richtr/NoSleep.js.git"

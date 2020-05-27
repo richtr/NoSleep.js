@@ -4,9 +4,7 @@
   "version": "0.9.0",
   "description": "Prevent display sleep on all Android and iOS browsers",
   "homepage": "https://github.com/richtr/NoSleep.js",
-  "authors": [
-    "Rich Tibbett"
-  ],
+  "authors": ["Rich Tibbett"],
   "main": "src/index.js",
   "license": "MIT",
   "ignore": [
@@ -18,12 +16,5 @@
     "node_modules",
     "bower_components"
   ],
-  "keywords": [
-    "nosleep",
-    "wake lock",
-    "wakelock",
-    "screen",
-    "display",
-    "sleep"
-  ]
+  "keywords": ["nosleep", "wake lock", "wakelock", "screen", "display", "sleep"]
 }

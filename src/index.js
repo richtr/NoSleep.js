@@ -16,9 +16,21 @@ const oldIOS =
   ) < 10 &&
   !window.MSStream;
 
+// Detect native Wake Lock API support
+const nativeWakeLock = "wakeLock" in navigator;
+
 class NoSleep {
   constructor() {
-    if (oldIOS) {
+    if (nativeWakeLock) {
+      this._wakeLock = null;
+      const handleVisibilityChange = () => {
+        if (this._wakeLock !== null && document.visibilityState === "visible") {
+          this.enable();
+        }
+      };
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+      document.addEventListener("fullscreenchange", handleVisibilityChange);
+    } else if (oldIOS) {
       this.noSleepTimer = null;
     } else {
       // Set up no sleep video element
@@ -54,7 +66,23 @@ class NoSleep {
   }
 
   enable() {
-    if (oldIOS) {
+    if (nativeWakeLock) {
+      navigator.wakeLock
+        .request("screen")
+        .then((wakeLock) => {
+          this._wakeLock = wakeLock;
+          console.log("Wake Lock active.");
+          this._wakeLock.addEventListener("release", () => {
+            // ToDo: Potentially emit an event for the page to observe since
+            // Wake Lock releases happen when page visibility changes.
+            // (https://web.dev/wakelock/#wake-lock-lifecycle)
+            console.log("Wake Lock released.");
+          });
+        })
+        .catch((err) => {
+          console.error(`${err.name}, ${err.message}`);
+        });
+    } else if (oldIOS) {
       this.disable();
       console.warn(`
         NoSleep enabled for older iOS devices. This can interrupt
@@ -73,7 +101,10 @@ class NoSleep {
   }
 
   disable() {
-    if (oldIOS) {
+    if (nativeWakeLock) {
+      this._wakeLock.release();
+      this._wakeLock = null;
+    } else if (oldIOS) {
       if (this.noSleepTimer) {
         console.warn(`
           NoSleep now disabled for older iOS devices.

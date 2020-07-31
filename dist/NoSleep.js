@@ -169,13 +169,19 @@ var NoSleep = function () {
       source.type = "video/" + type;
       element.appendChild(source);
     }
+
+    /**
+     *
+     * @returns {PromiseLike<any>|Promise<any>|Promise<void>}
+     */
+
   }, {
     key: "enable",
     value: function enable() {
       var _this2 = this;
 
       if (nativeWakeLock) {
-        navigator.wakeLock.request("screen").then(function (wakeLock) {
+        return navigator.wakeLock.request("screen").then(function (wakeLock) {
           _this2._wakeLock = wakeLock;
           console.log("Wake Lock active.");
           _this2._wakeLock.addEventListener("release", function () {
@@ -184,8 +190,6 @@ var NoSleep = function () {
             // (https://web.dev/wakelock/#wake-lock-lifecycle)
             console.log("Wake Lock released.");
           });
-        }).catch(function (err) {
-          console.error(err.name + ", " + err.message);
         });
       } else if (oldIOS) {
         this.disable();
@@ -196,8 +200,9 @@ var NoSleep = function () {
             window.setTimeout(window.stop, 0);
           }
         }, 15000);
+        return Promise.resolve();
       } else {
-        this.noSleepVideo.play();
+        return this.noSleepVideo.play();
       }
     }
   }, {

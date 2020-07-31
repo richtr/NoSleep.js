@@ -65,23 +65,22 @@ class NoSleep {
     element.appendChild(source);
   }
 
+  /**
+   *
+   * @returns {PromiseLike<any>|Promise<any>|Promise<void>}
+   */
   enable() {
     if (nativeWakeLock) {
-      navigator.wakeLock
-        .request("screen")
-        .then((wakeLock) => {
-          this._wakeLock = wakeLock;
-          console.log("Wake Lock active.");
-          this._wakeLock.addEventListener("release", () => {
-            // ToDo: Potentially emit an event for the page to observe since
-            // Wake Lock releases happen when page visibility changes.
-            // (https://web.dev/wakelock/#wake-lock-lifecycle)
-            console.log("Wake Lock released.");
-          });
-        })
-        .catch((err) => {
-          console.error(`${err.name}, ${err.message}`);
+      return navigator.wakeLock.request("screen").then((wakeLock) => {
+        this._wakeLock = wakeLock;
+        console.log("Wake Lock active.");
+        this._wakeLock.addEventListener("release", () => {
+          // ToDo: Potentially emit an event for the page to observe since
+          // Wake Lock releases happen when page visibility changes.
+          // (https://web.dev/wakelock/#wake-lock-lifecycle)
+          console.log("Wake Lock released.");
         });
+      });
     } else if (oldIOS) {
       this.disable();
       console.warn(`
@@ -95,8 +94,9 @@ class NoSleep {
           window.setTimeout(window.stop, 0);
         }
       }, 15000);
+      return Promise.resolve();
     } else {
-      this.noSleepVideo.play();
+      return this.noSleepVideo.play();
     }
   }
 

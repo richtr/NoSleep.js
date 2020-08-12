@@ -113,10 +113,14 @@ var _require = __webpack_require__(1),
 // Detect iOS browsers < version 10
 
 
-var oldIOS = typeof navigator !== "undefined" && parseFloat(("" + (/CPU.*OS ([0-9_]{3,4})[0-9_]{0,1}|(CPU like).*AppleWebKit.*Mobile/i.exec(navigator.userAgent) || [0, ""])[1]).replace("undefined", "3_2").replace("_", ".").replace("_", "")) < 10 && !window.MSStream;
+var oldIOS = function oldIOS() {
+  return typeof navigator !== "undefined" && parseFloat(("" + (/CPU.*OS ([0-9_]{3,4})[0-9_]{0,1}|(CPU like).*AppleWebKit.*Mobile/i.exec(navigator.userAgent) || [0, ""])[1]).replace("undefined", "3_2").replace("_", ".").replace("_", "")) < 10 && !window.MSStream;
+};
 
 // Detect native Wake Lock API support
-var nativeWakeLock = "wakeLock" in navigator;
+var nativeWakeLock = function nativeWakeLock() {
+  return "wakeLock" in navigator;
+};
 
 var NoSleep = function () {
   function NoSleep() {
@@ -124,7 +128,7 @@ var NoSleep = function () {
 
     _classCallCheck(this, NoSleep);
 
-    if (nativeWakeLock) {
+    if (nativeWakeLock()) {
       this._wakeLock = null;
       var handleVisibilityChange = function handleVisibilityChange() {
         if (_this._wakeLock !== null && document.visibilityState === "visible") {
@@ -133,7 +137,7 @@ var NoSleep = function () {
       };
       document.addEventListener("visibilitychange", handleVisibilityChange);
       document.addEventListener("fullscreenchange", handleVisibilityChange);
-    } else if (oldIOS) {
+    } else if (oldIOS()) {
       this.noSleepTimer = null;
     } else {
       // Set up no sleep video element
@@ -174,7 +178,7 @@ var NoSleep = function () {
     value: function enable() {
       var _this2 = this;
 
-      if (nativeWakeLock) {
+      if (nativeWakeLock()) {
         navigator.wakeLock.request("screen").then(function (wakeLock) {
           _this2._wakeLock = wakeLock;
           console.log("Wake Lock active.");
@@ -187,7 +191,7 @@ var NoSleep = function () {
         }).catch(function (err) {
           console.error(err.name + ", " + err.message);
         });
-      } else if (oldIOS) {
+      } else if (oldIOS()) {
         this.disable();
         console.warn("\n        NoSleep enabled for older iOS devices. This can interrupt\n        active or long-running network requests from completing successfully.\n        See https://github.com/richtr/NoSleep.js/issues/15 for more details.\n      ");
         this.noSleepTimer = window.setInterval(function () {
@@ -203,10 +207,10 @@ var NoSleep = function () {
   }, {
     key: "disable",
     value: function disable() {
-      if (nativeWakeLock) {
+      if (nativeWakeLock()) {
         this._wakeLock.release();
         this._wakeLock = null;
-      } else if (oldIOS) {
+      } else if (oldIOS()) {
         if (this.noSleepTimer) {
           console.warn("\n          NoSleep now disabled for older iOS devices.\n        ");
           window.clearInterval(this.noSleepTimer);

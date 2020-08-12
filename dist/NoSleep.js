@@ -8,7 +8,7 @@
 		exports["NoSleep"] = factory();
 	else
 		root["NoSleep"] = factory();
-})(window, function() {
+})(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};

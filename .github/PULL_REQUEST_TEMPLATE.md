@@ -13,7 +13,6 @@ This PR contains a:
 - [ ] **bugfix**
 - [ ] new **feature**
 - [ ] **code refactor**
-- [ ] **test update** <!-- if bug or feature is checked, this should be too -->
 - [ ] **typo fix**
 - [ ] **metadata update**
 

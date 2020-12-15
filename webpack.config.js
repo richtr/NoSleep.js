@@ -14,6 +14,7 @@ module.exports = {
     filename: "[name].js",
     library: "NoSleep",
     libraryTarget: "umd",
+    globalObject: "this",
   },
   module: {
     rules: [

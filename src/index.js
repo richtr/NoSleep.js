@@ -102,7 +102,9 @@ class NoSleep {
 
   disable() {
     if (nativeWakeLock) {
-      this._wakeLock.release();
+      if (this._wakeLock) {
+        this._wakeLock.release();
+      }
       this._wakeLock = null;
     } else if (oldIOS) {
       if (this.noSleepTimer) {

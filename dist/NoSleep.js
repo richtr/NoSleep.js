@@ -175,7 +175,7 @@ var NoSleep = function () {
       var _this2 = this;
 
       if (nativeWakeLock) {
-        navigator.wakeLock.request("screen").then(function (wakeLock) {
+        return navigator.wakeLock.request("screen").then(function (wakeLock) {
           _this2._wakeLock = wakeLock;
           console.log("Wake Lock active.");
           _this2._wakeLock.addEventListener("release", function () {
@@ -196,8 +196,9 @@ var NoSleep = function () {
             window.setTimeout(window.stop, 0);
           }
         }, 15000);
+        return Promise.resolve();
       } else {
-        this.noSleepVideo.play();
+        return this.noSleepVideo.play();
       }
     }
   }, {

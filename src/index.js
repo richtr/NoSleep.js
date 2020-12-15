@@ -67,7 +67,7 @@ class NoSleep {
 
   enable() {
     if (nativeWakeLock) {
-      navigator.wakeLock
+      return navigator.wakeLock
         .request("screen")
         .then((wakeLock) => {
           this._wakeLock = wakeLock;
@@ -95,8 +95,9 @@ class NoSleep {
           window.setTimeout(window.stop, 0);
         }
       }, 15000);
+      return Promise.resolve();
     } else {
-      this.noSleepVideo.play();
+      return this.noSleepVideo.play();
     }
   }
 

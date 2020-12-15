@@ -2,6 +2,7 @@ declare namespace nosleep {
   class NoSleep {
     constructor();
 
+    get isEnabled(): boolean;
     enable(): Promise<any>;
     disable(): void;
     _addSourceToVideo(

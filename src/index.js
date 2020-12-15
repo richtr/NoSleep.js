@@ -21,6 +21,7 @@ const nativeWakeLock = () => "wakeLock" in navigator;
 
 class NoSleep {
   constructor() {
+    this.enabled = false;
     if (nativeWakeLock()) {
       this._wakeLock = null;
       const handleVisibilityChange = () => {
@@ -65,12 +66,17 @@ class NoSleep {
     element.appendChild(source);
   }
 
+  get isEnabled() {
+    return this.enabled;
+  }
+
   enable() {
     if (nativeWakeLock()) {
       return navigator.wakeLock
         .request("screen")
         .then((wakeLock) => {
           this._wakeLock = wakeLock;
+          this.enabled = true;
           console.log("Wake Lock active.");
           this._wakeLock.addEventListener("release", () => {
             // ToDo: Potentially emit an event for the page to observe since
@@ -80,7 +86,9 @@ class NoSleep {
           });
         })
         .catch((err) => {
+          this.enabled = false;
           console.error(`${err.name}, ${err.message}`);
+          throw err;
         });
     } else if (oldIOS()) {
       this.disable();
@@ -95,9 +103,19 @@ class NoSleep {
           window.setTimeout(window.stop, 0);
         }
       }, 15000);
+      this.enabled = true;
       return Promise.resolve();
     } else {
-      return this.noSleepVideo.play();
+      let playPromise = this.noSleepVideo.play();
+      return playPromise
+        .then((res) => {
+          this.enabled = true;
+          return res;
+        })
+        .catch((err) => {
+          this.enabled = false;
+          throw err;
+        });
     }
   }
 
@@ -118,6 +136,7 @@ class NoSleep {
     } else {
       this.noSleepVideo.pause();
     }
+    this.enabled = false;
   }
 }
 

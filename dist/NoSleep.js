@@ -128,6 +128,7 @@ var NoSleep = function () {
 
     _classCallCheck(this, NoSleep);
 
+    this.enabled = false;
     if (nativeWakeLock()) {
       this._wakeLock = null;
       var handleVisibilityChange = function handleVisibilityChange() {
@@ -181,6 +182,7 @@ var NoSleep = function () {
       if (nativeWakeLock()) {
         return navigator.wakeLock.request("screen").then(function (wakeLock) {
           _this2._wakeLock = wakeLock;
+          _this2.enabled = true;
           console.log("Wake Lock active.");
           _this2._wakeLock.addEventListener("release", function () {
             // ToDo: Potentially emit an event for the page to observe since
@@ -189,7 +191,9 @@ var NoSleep = function () {
             console.log("Wake Lock released.");
           });
         }).catch(function (err) {
+          _this2.enabled = false;
           console.error(err.name + ", " + err.message);
+          throw err;
         });
       } else if (oldIOS()) {
         this.disable();
@@ -200,9 +204,17 @@ var NoSleep = function () {
             window.setTimeout(window.stop, 0);
           }
         }, 15000);
+        this.enabled = true;
         return Promise.resolve();
       } else {
-        return this.noSleepVideo.play();
+        var playPromise = this.noSleepVideo.play();
+        return playPromise.then(function (res) {
+          _this2.enabled = true;
+          return res;
+        }).catch(function (err) {
+          _this2.enabled = false;
+          throw err;
+        });
       }
     }
   }, {
@@ -222,6 +234,12 @@ var NoSleep = function () {
       } else {
         this.noSleepVideo.pause();
       }
+      this.enabled = false;
+    }
+  }, {
+    key: "isEnabled",
+    get: function get() {
+      return this.enabled;
     }
   }]);
 

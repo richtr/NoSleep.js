@@ -128,6 +128,7 @@ var NoSleep = function () {
 
     _classCallCheck(this, NoSleep);
 
+    this.title = "No sleep";
     this.enabled = false;
     if (nativeWakeLock()) {
       this._wakeLock = null;
@@ -144,7 +145,7 @@ var NoSleep = function () {
       // Set up no sleep video element
       this.noSleepVideo = document.createElement("video");
 
-      this.noSleepVideo.setAttribute("title", "No Sleep");
+      this.noSleepVideo.setAttribute("title", this.title);
       this.noSleepVideo.setAttribute("playsinline", "");
 
       this._addSourceToVideo(this.noSleepVideo, "webm", webm);
@@ -179,11 +180,14 @@ var NoSleep = function () {
     value: function enable() {
       var _this2 = this;
 
+      var title = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.title;
+
       if (nativeWakeLock()) {
         return navigator.wakeLock.request("screen").then(function (wakeLock) {
           _this2._wakeLock = wakeLock;
           _this2.enabled = true;
-          console.log("Wake Lock active.");
+          _this2.title = title;
+          console.log("Wake Lock active.", _this2.title);
           _this2._wakeLock.addEventListener("release", function () {
             // ToDo: Potentially emit an event for the page to observe since
             // Wake Lock releases happen when page visibility changes.

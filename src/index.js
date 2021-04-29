@@ -21,6 +21,7 @@ const nativeWakeLock = () => "wakeLock" in navigator;
 
 class NoSleep {
   constructor() {
+    this.title = "No sleep";
     this.enabled = false;
     if (nativeWakeLock()) {
       this._wakeLock = null;
@@ -37,7 +38,7 @@ class NoSleep {
       // Set up no sleep video element
       this.noSleepVideo = document.createElement("video");
 
-      this.noSleepVideo.setAttribute("title", "No Sleep");
+      this.noSleepVideo.setAttribute("title", this.title);
       this.noSleepVideo.setAttribute("playsinline", "");
 
       this._addSourceToVideo(this.noSleepVideo, "webm", webm);
@@ -70,13 +71,14 @@ class NoSleep {
     return this.enabled;
   }
 
-  enable() {
+  enable(title = this.title) {
     if (nativeWakeLock()) {
       return navigator.wakeLock
         .request("screen")
         .then((wakeLock) => {
           this._wakeLock = wakeLock;
           this.enabled = true;
+          this.title = title;
           console.log("Wake Lock active.");
           this._wakeLock.addEventListener("release", () => {
             // ToDo: Potentially emit an event for the page to observe since

@@ -45,6 +45,14 @@ class NoSleep {
       this._addSourceToVideo(this.noSleepVideo, "webm", webm);
       this._addSourceToVideo(this.noSleepVideo, "mp4", mp4);
 
+      // For iOS >15 video needs to be on the document to work as a wake lock
+      Object.assign(this.noSleepVideo.style, {
+        position: "absolute",
+        left: "-100%",
+        top: "-100%",
+      });
+      document.querySelector("body").append(this.noSleepVideo);
+
       this.noSleepVideo.addEventListener("loadedmetadata", () => {
         if (this.noSleepVideo.duration <= 1) {
           // webm source

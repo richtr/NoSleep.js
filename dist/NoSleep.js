@@ -117,9 +117,9 @@ var oldIOS = function oldIOS() {
   return typeof navigator !== "undefined" && parseFloat(("" + (/CPU.*OS ([0-9_]{3,4})[0-9_]{0,1}|(CPU like).*AppleWebKit.*Mobile/i.exec(navigator.userAgent) || [0, ""])[1]).replace("undefined", "3_2").replace("_", ".").replace("_", "")) < 10 && !window.MSStream;
 };
 
-// Detect native Wake Lock API support
+// Detect native Wake Lock API support (Samsung Browser supports it but cannot use it)
 var nativeWakeLock = function nativeWakeLock() {
-  return "wakeLock" in navigator;
+  return "wakeLock" in navigator && window.navigator.userAgent.indexOf("Samsung") === -1;
 };
 
 var NoSleep = function () {
@@ -149,6 +149,14 @@ var NoSleep = function () {
 
       this._addSourceToVideo(this.noSleepVideo, "webm", webm);
       this._addSourceToVideo(this.noSleepVideo, "mp4", mp4);
+
+      // For iOS >15 video needs to be on the document to work as a wake lock
+      Object.assign(this.noSleepVideo.style, {
+        position: "absolute",
+        left: "-100%",
+        top: "-100%"
+      });
+      document.querySelector("body").append(this.noSleepVideo);
 
       this.noSleepVideo.addEventListener("loadedmetadata", function () {
         if (_this.noSleepVideo.duration <= 1) {

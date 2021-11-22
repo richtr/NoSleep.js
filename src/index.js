@@ -16,8 +16,10 @@ const oldIOS = () =>
   ) < 10 &&
   !window.MSStream;
 
-// Detect native Wake Lock API support
-const nativeWakeLock = () => "wakeLock" in navigator;
+// Detect native Wake Lock API support (Samsung Browser supports it but cannot use it)
+const nativeWakeLock = () =>
+  "wakeLock" in navigator &&
+  window.navigator.userAgent.indexOf("Samsung") === -1;
 
 class NoSleep {
   constructor() {
@@ -42,6 +44,14 @@ class NoSleep {
 
       this._addSourceToVideo(this.noSleepVideo, "webm", webm);
       this._addSourceToVideo(this.noSleepVideo, "mp4", mp4);
+
+      // For iOS >15 video needs to be on the document to work as a wake lock
+      Object.assign(this.noSleepVideo.style, {
+        position: "absolute",
+        left: "-100%",
+        top: "-100%",
+      });
+      document.querySelector("body").append(this.noSleepVideo);
 
       this.noSleepVideo.addEventListener("loadedmetadata", () => {
         if (this.noSleepVideo.duration <= 1) {

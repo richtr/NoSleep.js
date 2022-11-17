@@ -37,7 +37,7 @@ class NoSleep {
       // Set up no sleep video element
       this.noSleepVideo = document.createElement("video");
 
-      this.noSleepVideo.setAttribute("title", "No Sleep");
+      this.noSleepVideo.setAttribute("title", document.location.hostname);
       this.noSleepVideo.setAttribute("playsinline", "");
 
       this._addSourceToVideo(this.noSleepVideo, "webm", webm);

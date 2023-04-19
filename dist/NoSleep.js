@@ -133,7 +133,7 @@ var NoSleep = function () {
       this._wakeLock = null;
       var handleVisibilityChange = function handleVisibilityChange() {
         if (_this._wakeLock !== null && document.visibilityState === "visible") {
-          _this.enable();
+          _this.enable().catch(function () {});
         }
       };
       document.addEventListener("visibilitychange", handleVisibilityChange);

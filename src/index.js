@@ -26,7 +26,7 @@ class NoSleep {
       this._wakeLock = null;
       const handleVisibilityChange = () => {
         if (this._wakeLock !== null && document.visibilityState === "visible") {
-          this.enable();
+          this.enable().catch(() => {});
         }
       };
       document.addEventListener("visibilitychange", handleVisibilityChange);
